@@ -1,6 +1,6 @@
 {
   "name": "@theoem/complete-me",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Prefix search tree implementation",
   "main": "index.js",
   "directories": {

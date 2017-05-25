@@ -10,7 +10,7 @@ describe('Prefix Tree : ', () => {
 
   beforeEach(() => {
     tree = new Tree();
-  });
+  })
 
   it('should be an instance of Tree', () => {
     expect(tree).to.be.instanceOf(Tree);
@@ -18,6 +18,10 @@ describe('Prefix Tree : ', () => {
 
   it('should have a empty root node by default', () => {
     expect(tree.root).to.deep.equal(new Node());
+  })
+
+  it('should have a count of zero by default', () => {
+    expect(tree.count).to.equal(0);
   })
 
   describe('INSERT', () => {

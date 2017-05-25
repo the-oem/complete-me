@@ -1,7 +1,7 @@
 {
-  "name": "TDD",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@theoem/complete-me",
+  "version": "0.0.1",
+  "description": "Prefix search tree implementation",
   "main": "index.js",
   "directories": {
     "test": "tests"
@@ -10,13 +10,29 @@
     "test": "mocha --compilers js:babel-core/register tests"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jason Collins",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-core": "^6.22.1",
     "babel-preset-env": "^1.1.8",
     "babel-preset-es2015": "^6.22.0",
+    "chai": "^3.5.0",
+    "mocha": "^3.4.2"
+  },
+  "dependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.22.1",
+    "babel-preset-env": "^1.1.8",
+    "babel-preset-es2015": "^6.22.0",
     "chai": "^3.5.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/the-oem/complete-me.git"
+  },
+  "bugs": {
+    "url": "https://github.com/the-oem/complete-me/issues"
+  },
+  "homepage": "https://github.com/the-oem/complete-me#readme"
 }

@@ -43,15 +43,24 @@ class Tree {
         currentNode = currentNode.children[char];
       }
     })
-
+    if (currentNode === this.root) {
+      return null;
+    }
     return currentNode;
+  }
+
+  getPopularity(input) {
+    let node = this.find(input);
+
+    return node.selectedCount;
   }
 
   suggest(input) {
     let suggestions = [];
     let currentNode = this.find(input);
 
-    return this.suggestHelper(currentNode, input, suggestions);
+    return this.popularitySort(
+      this.suggestHelper(currentNode, input, suggestions));
   }
 
   suggestHelper(currentNode, partialWord, suggestions) {
@@ -67,9 +76,31 @@ class Tree {
     return suggestions;
   }
 
+  popularitySort(suggestions) {
+    let sortedSuggestions = [];
+
+    suggestions.forEach( word => {
+      sortedSuggestions.push({
+        word,
+        'count': this.getPopularity(word)
+      })
+    })
+    return sortedSuggestions
+      .sort( (a, b) => b.count - a.count)
+      .map( suggestion => suggestion.word)
+  }
+
   populate(dictionary) {
-    // TODO validate that it's an array, and test for it
+    if (!(dictionary instanceof Array)) {
+      return null;
+    }
     dictionary.forEach(word => this.insert(word))
+  }
+
+  select(selection) {
+    let selectedNode = this.find(selection);
+
+    selectedNode.selectedCount ++;
   }
 
 }

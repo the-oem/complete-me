@@ -3,6 +3,7 @@ class Node {
     this.letter = letter;
     this.children = children;
     this.isWordEnd = false;
+    this.selectedCount = 0;
   }
 }
 

@@ -31,16 +31,6 @@ describe('Prefix Tree : ', () => {
       expect(tree.insert('')).to.equal('Input must be at least one character.');
     })
 
-    it('should accept a complete word', () => {
-      tree.insert('sam');
-      let start = tree.root.children;
-
-      expect(start['s'].letter).to.equal('s');
-      expect(start['s'].children['a'].letter).to.equal('a');
-      expect(start['s'].children['a'].children['m'].letter).to.equal('m');
-      expect(start['s'].children['a'].children['m'].isWordEnd).to.equal(true);
-    })
-
     it('should convert words to lowercase', () => {
       tree.insert('SAM');
       let start = tree.root.children;
@@ -60,14 +50,13 @@ describe('Prefix Tree : ', () => {
       expect(node.letter).to.equal('m');
     })
 
-    it('should return nothing (root) if word isnt found', () => {
-      expect(tree.find('foo')).to.equal(tree.root);
+    it('should return null if there is no matching word', () => {
+      expect(tree.find('foo')).to.be.null;
     })
   })
 
   describe('POPULATE', () => {
     it('should return a count for the number of complete words', () => {
-      // TODO Should it really allow duplicates? Probably not.
       tree.insert('pizza');
       tree.insert('suh');
       expect(tree.getCount()).to.equal(2);
@@ -77,11 +66,19 @@ describe('Prefix Tree : ', () => {
     })
 
     it('should populate from a dictionary file', () => {
-      tree.populate(dictionary);
       // Was 235886, but filtering out duplicates based on capitalization.
+      tree.populate(dictionary);
       expect(tree.getCount()).to.equal(234371);
     })
 
+    it('should reject anything except an array', () => {
+      let myString = 'string';
+
+      expect(tree.populate(myString)).to.be.null;
+      let myArray = ['string'];
+
+      expect(tree.populate(myArray)).to.be.undefined;
+    })
   })
 
   describe('SUGGEST', () => {
@@ -99,8 +96,42 @@ describe('Prefix Tree : ', () => {
       expect(suggestions.length).to.equal(3);
       expect(suggestions).to.deep.equal(['piza', 'pizza', 'pizzeria']);
     })
+  })
 
+  describe('SELECT', () => {
 
+    it('should select a word and have its selected count increase', () => {
+
+      tree.insert('sam');
+      tree.select('sam');
+      expect(tree.root.children['s'].children['a'].children['m']
+        .selectedCount).to.equal(1);
+      tree.select('sam');
+      expect(tree.root.children['s'].children['a'].children['m']
+        .selectedCount).to.equal(2);
+    })
+
+    it('should sort suggestions based on frequency', () => {
+      tree.insert('pizza');
+      tree.insert('pizzeria');
+      tree.insert('piza');
+
+      tree.select('pizza');
+      tree.select('pizza');
+      tree.select('pizza');
+      tree.select('pizza');
+      tree.select('pizzeria');
+      tree.select('pizzeria');
+      tree.select('pizzeria');
+      tree.select('piza');
+      let suggestions = tree.suggest('piz');
+
+      expect(suggestions.length).to.equal(3);
+      expect(suggestions[0]).to.deep.equal('pizza');
+      expect(suggestions[1]).to.deep.equal('pizzeria');
+      expect(suggestions[2]).to.deep.equal('piza');
+
+    })
 
   })
 
